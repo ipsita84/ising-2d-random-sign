@@ -176,10 +176,10 @@ double energy_tot(array_2d sitespin, array_2d J_x, array_2d J_y)
 
 	//periodic boundary conditions
 	for (unsigned int j = 0; j < axis2; ++j)
-		energy -= J*J_x[axis1-1][j]*sitespin[axis1 - 1][j] * sitespin[0][j];
+		energy -= J*J_x[axis1-1][j]*sitespin[axis1-1][j] * sitespin[0][j];
 
 	for (unsigned int i = 0; i < axis1; ++i)
-		energy -= J*J_y[i][axis2-1]*sitespin[i][axis2 - 1] * sitespin[i][0];
+		energy -= J*J_y[i][axis2-1]*sitespin[i][axis2-1] * sitespin[i][0];
 
 	return energy;
 }
@@ -192,43 +192,43 @@ double nn_energy(array_2d sitespin,  array_2d J_x, array_2d J_y, unsigned int ro
 
 	if (row > 0 && row < axis1 - 1)
 	{
-		nn_en -=J*J_x[row][col] * sitespin[row][col] * sitespin[row-1][col];
+		nn_en -=J*J_x[row-1][col] * sitespin[row][col] * sitespin[row-1][col];
 		nn_en -=J*J_x[row][col]*sitespin[row][col] * sitespin[row+1][col];
 	}
 
 	if (col > 0 && col < axis2 - 1)
 	{
 		nn_en -=
-		    J*J_y[row][col]*sitespin[row][col] * sitespin[row][col-1];
+		    J*J_y[row][col-1]*sitespin[row][col] * sitespin[row][col-1];
 		nn_en -=
 		    J*J_y[row][col]*sitespin[row][col] * sitespin[row][col+1];
 	}
 
 	if (row == 0)
 	{
-		nn_en -=J*J_x[row][col]*sitespin[0][col] * sitespin[axis1 - 1][col];
-		nn_en -= J *J_x[row][col]* sitespin[0][col] * sitespin[1][col];
+		nn_en -=J*J_x[axis1-1][col]*sitespin[0][col] * sitespin[axis1-1][col];
+		nn_en -= J *J_x[0][col]* sitespin[0][col] * sitespin[1][col];
 
 	}
 
-	if (row == axis1 - 1)
+	if (row == axis1-1)
 	{
-		nn_en -=J*J_x[row][col] * sitespin[axis1 - 1][col] * sitespin[axis1-2][col];
-		nn_en -=J*J_x[row][col] * sitespin[axis1 - 1][col] * sitespin[0][col];
+		nn_en -=J*J_x[axis1-2][col] * sitespin[axis1 - 1][col] * sitespin[axis1-2][col];
+		nn_en -=J*J_x[axis1-1][col] * sitespin[axis1-1][col] * sitespin[0][col];
 
 	}
 
 	if (col == 0)
 	{
-		nn_en -=J*J_y[row][col] * sitespin[row][0] * sitespin[row][axis2-1];
-		nn_en -= J*J_y[row][col] * sitespin[row][0] * sitespin[row][1];
+		nn_en -=J*J_y[row][axis2-1] * sitespin[row][0] * sitespin[row][axis2-1];
+		nn_en -= J*J_y[row][0] * sitespin[row][0] * sitespin[row][1];
 
 	}
 
-	if (col == axis2 - 1)
+	if (col == axis2-1)
 	{
-		nn_en -=J*J_y[row][col] * sitespin[row][axis2 - 1] * sitespin[row][axis2-2];
-		nn_en -=J*J_y[row][col] * sitespin[row][axis2 - 1] * sitespin[row][0];
+		nn_en -=J*J_y[row][axis2-2] * sitespin[row][axis2-1] * sitespin[row][axis2-2];
+		nn_en -=J*J_y[row][axis2-1] * sitespin[row][axis2-1] * sitespin[row][0];
 
 	}
 	return nn_en;
