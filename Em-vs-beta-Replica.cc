@@ -13,10 +13,13 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/uniform_real_distribution.hpp>
+#include <boost/lexical_cast.hpp>
 
 // gen is a variable name
 // Its data-type is boost::random::mt19937
 boost::random::mt19937 gen;
+using boost::lexical_cast;
+using boost::bad_lexical_cast;
 using namespace std;
 
 typedef
@@ -31,7 +34,7 @@ const unsigned int axis1 = 32, axis2 = 32;
 // above assigns length along each dimension of the 2d configuration
 
 //No.of Monte Carlo updates we want
-unsigned int N_mc = 10000;
+unsigned int N_mc = 1e6;
 
 //Function templates
 double en_avg(double beta);
@@ -41,19 +44,37 @@ double random_real(int a, int b);
 double energy_tot(array_2d sitespin, array_2d J_x, array_2d J_y);
 double nn_energy(array_2d sitespin,  array_2d J_x, array_2d J_y, unsigned int row, unsigned int col);
 
-int main()
+int main(int argc, char * argv[])
 {
+	if (argc != 4)
+	{
+		cout << "Expecting three inputs: beta_min, beta_max, del_beta."
+		     << endl << "Got " << argc - 1 << endl;
+		return 1;
+	}
 
 	double beta_min(0), beta_max(0), del_beta(0);
 
-	cout << "Enter minimum beta" << endl;
-	cin >> beta_min;
+		try
+	{
+		beta_min = lexical_cast<double>(argv[1]);
+		beta_max = lexical_cast<double>(argv[2]);
+		del_beta = lexical_cast<double>(argv[3]);
+	}
+	catch (const bad_lexical_cast & x)
+	{
+		cout << "Cannot convert input to double" << endl;
+		return 2;
+	}
 
-	cout << "Enter maximum beta" << endl;
-	cin >> beta_max;
+//	cout << "Enter minimum beta" << endl;
+//	cin >> beta_min;
 
-	cout << "Enter increment of beta" << endl;
-	cin >> del_beta;
+//	cout << "Enter maximum beta" << endl;
+//	cin >> beta_max;
+
+//	cout << "Enter increment of beta" << endl;
+//	cin >> del_beta;
 	
 	
 	ofstream fout("Em-32.dat"); // Opens a file for output
@@ -120,7 +141,7 @@ double modi_en(double beta)
 
 	double en_sum(0);
 
-	for (unsigned int i = 1; i <=2*N_mc; ++i)
+	for (unsigned int i = 1; i <=1e5 + N_mc; ++i)
 	{
 		for (unsigned int j = 1; j <= 3*sys_size/2; ++j)
 		{	//Choose a random spin site for the entire 2 replica system
@@ -194,7 +215,7 @@ double modi_en(double beta)
 
 		}
 
-		if (i>N_mc) en_sum += energy;
+		if (i> 1e5) en_sum += energy;
 	}
 	double avg_en = en_sum / N_mc ;
 	return avg_en ;
