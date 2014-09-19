@@ -1,4 +1,5 @@
 // g++ -Wall -O3 E-vs-beta-Normal.cc -o testo
+// Run with command line arguments, e.g. ./testo 0 30 1e-3
 // Considering 2d ising model in zero magnetic field with random J sign
 //warming up system for first N_mc updates
 //averaging energy for the next N_mc updates
@@ -13,10 +14,13 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/uniform_real_distribution.hpp>
+#include <boost/lexical_cast.hpp>
 
 // gen is a variable name
 // Its data-type is boost::random::mt19937
 boost::random::mt19937 gen;
+using boost::lexical_cast;
+using boost::bad_lexical_cast;
 using namespace std;
 
 typedef
@@ -25,11 +29,11 @@ typedef
 
 // Magnitude of J
 double J = 1.0;
-const unsigned int axis1 = 32, axis2 = 32;
+const unsigned int axis1 = 8, axis2 = 8;
 // above assigns length along each dimension of the 2d configuration
 
 //No.of Monte Carlo updates we want
-unsigned int N_mc = 10000;
+unsigned int N_mc = 1e6;
 
 //Function templates
 int roll_coin(int a, int b);
@@ -37,8 +41,14 @@ double random_real(int a, int b);
 double energy_tot(array_2d sitespin, array_2d J_x, array_2d J_y);
 double nn_energy(array_2d sitespin,  array_2d J_x, array_2d J_y, unsigned int row, unsigned int col);
 
-int main()
+int main(int argc, char * argv[])
 {
+	if (argc != 4)
+	{
+		cout << "Expecting three inputs: beta_min, beta_max, del_beta."
+		     << endl << "Got " << argc - 1 << endl;
+		return 1;
+	}
 	array_2d J_x(boost::extents[axis1][axis2]);
 	array_2d J_y(boost::extents[axis1][axis2]);
 	//Read the random signed bonds for a particular stored realization
@@ -58,15 +68,26 @@ int main()
 	gyin.close();
 	
 	double beta_min(0), beta_max(0), del_beta(0);
+	try
+	{
+		beta_min = lexical_cast<double>(argv[1]);
+		beta_max = lexical_cast<double>(argv[2]);
+		del_beta = lexical_cast<double>(argv[3]);
+	}
+	catch (const bad_lexical_cast & x)
+	{
+		cout << "Cannot convert input to double" << endl;
+		return 2;
+	}
 
-	cout << "Enter minimum beta" << endl;
-	cin >> beta_min;
+//	cout << "Enter minimum beta" << endl;
+//	cin >> beta_min;
 
-	cout << "Enter maximum beta" << endl;
-	cin >> beta_max;
+//	cout << "Enter maximum beta" << endl;
+//	cin >> beta_max;
 
-	cout << "Enter increment of beta" << endl;
-	cin >> del_beta;
+//	cout << "Enter increment of beta" << endl;
+//	cin >> del_beta;
 
 	ofstream fout("E-32.dat");	// Opens a file for output
 
@@ -86,7 +107,7 @@ int main()
 		double en_sum(0);
 		unsigned int sys_size = axis1 * axis2;
 
-		for (unsigned int i = 1; i <=2*N_mc; ++i)
+		for (unsigned int i = 1; i <=1e5+N_mc; ++i)
 		{
 			for (unsigned int j = 1; j <= sys_size; ++j)
 			{	//Now choose a random spin site with site no.=label
@@ -119,7 +140,7 @@ int main()
 			}
 
 
-			if (i > N_mc) en_sum += energy;
+			if (i > 1e5) en_sum += energy;
 
 		}
 
