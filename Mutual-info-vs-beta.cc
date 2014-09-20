@@ -75,8 +75,11 @@ int main(int argc, char const * argv[])
         vvdouble vn = tabdatr("E-32.dat", 2);//normal energy data
 	interp_data idn(vn,1);
 	
-	gsl_integration_workspace * w 
-          = gsl_integration_workspace_alloc (1000);
+//	gsl_integration_workspace * w 
+//          = gsl_integration_workspace_alloc (1000);
+	gsl_integration_cquad_workspace * w 
+          = gsl_integration_cquad_workspace_alloc (100);
+        size_t nevals = 1e3;
 
 	for (double beta = beta_min; beta < beta_max + del_beta; beta += del_beta)
 	{	mut_info = 0 ;
@@ -87,12 +90,15 @@ int main(int argc, char const * argv[])
 		F.params = &idn;
 //Function: int gsl_integration_qags (const gsl_function * f,double a,double b, double epsabs, double epsrel,size_t limit,gsl_integration_workspace * workspace,double * result, double *abserr)
 //gsl_integration_cquad (const gsl_function * f, double a, double b, double epsabs, double epsrel, gsl_integration_cquad_workspace * workspace, double * result, double * abserr, size_t * nevals)		
-  		gsl_integration_qags (&F, 0, beta, 1e-6, 1e-4,1000, w, &term2, &abs_error);
-  		gsl_integration_qags (&F, 0, 2.0*beta, 1e-6, 1e-4,1000, w, &term3, &abs_error);
+  		gsl_integration_cquad (&F, 0,     beta, 1e-6, 1e-4,
+  		                       w, &term2, &abs_error, &nevals);
+  		gsl_integration_cquad (&F, 0, 2.0*beta, 1e-6, 1e-4,
+  		                       w, &term3, &abs_error, &nevals);
   		
   		F.function = &g;
   		F.params = &idm;
-  		gsl_integration_qags (&F, 0, beta, 1e-6, 1e-4,1000, w, &term1, &abs_error);
+  		gsl_integration_cquad (&F, 0, beta, 1e-6, 1e-4, w, &term1,
+  		                       &abs_error, &nevals);
 		
 	        
 	        mut_info =2.0*term1 -2.0* term2 - term3;
