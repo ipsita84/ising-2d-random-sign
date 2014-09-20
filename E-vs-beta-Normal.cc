@@ -24,7 +24,7 @@ using boost::bad_lexical_cast;
 using namespace std;
 
 typedef
- boost::multi_array < int, 2 > array_2d;
+boost::multi_array < int, 2 > array_2d;
 // typedef keyword allows you to create an alias fo a data type
 
 // Magnitude of J
@@ -49,13 +49,13 @@ int main(int argc, char const * argv[])
 		     << endl << "Got " << argc - 1 << endl;
 		return 1;
 	}
+
 	array_2d J_x(boost::extents[axis1][axis2]);
 	array_2d J_y(boost::extents[axis1][axis2]);
 	//Read the random signed bonds for a particular stored realization
-	
 	ifstream gxin("Jx-32.dat");
 	ifstream gyin("Jy-32.dat");
-	
+
 	for (unsigned int i = 0; i < axis1; ++i)
 	{
 		for (unsigned int j = 0; j < axis2; ++j)
@@ -64,10 +64,11 @@ int main(int argc, char const * argv[])
 			gyin>>J_y[i][j];
 		}
 	}
+
 	gxin.close();
 	gyin.close();
-	
 	double beta_min(0), beta_max(0), del_beta(0);
+
 	try
 	{
 		beta_min = lexical_cast<double>(argv[1]);
@@ -82,18 +83,15 @@ int main(int argc, char const * argv[])
 
 //	cout << "Enter minimum beta" << endl;
 //	cin >> beta_min;
-
 //	cout << "Enter maximum beta" << endl;
 //	cin >> beta_max;
-
 //	cout << "Enter increment of beta" << endl;
 //	cin >> del_beta;
-
 	ofstream fout("E-32.dat");	// Opens a file for output
 
 	for (double beta = beta_min; beta < beta_max + del_beta; beta += del_beta)
-
-	{	// Create a 2d array that is axis1 * axis2
+	{
+		// Create a 2d array that is axis1 * axis2
 		array_2d sitespin(boost::extents[axis1][axis2]);
 
 		// stores the spin configuration of the system
@@ -103,31 +101,30 @@ int main(int argc, char const * argv[])
 				sitespin[i][j] = 2 * roll_coin(0, 1) - 1;
 
 		double energy = energy_tot(sitespin, J_x, J_y);
-
 		double en_sum(0);
 		unsigned int sys_size = axis1 * axis2;
 
 		for (unsigned int i = 1; i <=1e5+N_mc; ++i)
 		{
 			for (unsigned int j = 1; j <= sys_size; ++j)
-			{	//Now choose a random spin site with site no.=label
+			{
+				//Now choose a random spin site with site no.=label
+				unsigned int label, row, col ;
+				label = roll_coin(1, sys_size);
 
-			unsigned int label, row, col ;
-			label = roll_coin(1, sys_size);
-			if (label % axis2 == 0)
-			{	row = (label / axis2) - 1;
-				col = axis2 -1 ; 
-			}
-			else
-			{	col = label % axis2 - 1;
-				row = (label-col-1)/axis2;
-			}
+				if (label % axis2 == 0)
+				{
+					row = (label / axis2) - 1;
+					col = axis2 -1 ;
+				}
+				else
+				{
+					col = label % axis2 - 1;
+					row = (label-col-1)/axis2;
+				}
 
-			double energy_diff =-2 * nn_energy(sitespin,J_x, J_y, row, col);
-
-
+				double energy_diff =-2 * nn_energy(sitespin,J_x, J_y, row, col);
 				//Generate a random no. r such that 0 < r < 1
-
 				double r = random_real(0, 1);
 				double acc_ratio = exp(-1.0 * energy_diff* beta);
 
@@ -139,19 +136,15 @@ int main(int argc, char const * argv[])
 				}
 			}
 
-
 			if (i > 1e5) en_sum += energy;
-
 		}
 
 		fout << beta
-		    << '\t' << en_sum / N_mc << endl;
+		     << '\t' << en_sum / N_mc << endl;
 	}
-	
+
 	fout.close();
-
 	return 0;
-
 }
 
 //function to generate random integer
@@ -159,9 +152,7 @@ int main(int argc, char const * argv[])
 int roll_coin(int a, int b)
 {
 	boost::random::uniform_int_distribution <> dist(a, b);
-
 	return dist(gen);
-
 }
 
 //function to generate random real no.
@@ -170,10 +161,9 @@ int roll_coin(int a, int b)
 double random_real(int a, int b)
 {
 	boost::random::uniform_real_distribution <> dist(a, b);
-	// uniform_real_distribution: continuous uniform distribution 
+	// uniform_real_distribution: continuous uniform distribution
 	//on some range [min, max) of real number
 	return dist(gen);
-
 }
 
 //function to calculate total energy
@@ -189,9 +179,7 @@ double energy_tot(array_2d sitespin, array_2d J_x, array_2d J_y)
 		for (unsigned int j = 0; j < axis2 - 1; ++j)
 		{
 			energy -= J*J_x[i][j]*sitespin[i][j]*sitespin[i+1][j];
-			    
 			energy -= J*J_y[i][j]*sitespin[i][j]*sitespin[i][j+1];
-
 		}
 	}
 
@@ -205,7 +193,7 @@ double energy_tot(array_2d sitespin, array_2d J_x, array_2d J_y)
 	return energy;
 }
 
-//Calculating interaction energy change for spin 
+//Calculating interaction energy change for spin
 //at random site->(row,col) with its nearest neighbours
 double nn_energy(array_2d sitespin,  array_2d J_x, array_2d J_y, unsigned int row, unsigned int col)
 {
@@ -229,29 +217,26 @@ double nn_energy(array_2d sitespin,  array_2d J_x, array_2d J_y, unsigned int ro
 	{
 		nn_en -=J*J_x[axis1-1][col]*sitespin[0][col] * sitespin[axis1-1][col];
 		nn_en -= J *J_x[0][col]* sitespin[0][col] * sitespin[1][col];
-
 	}
 
 	if (row == axis1-1)
 	{
 		nn_en -=J*J_x[axis1-2][col] * sitespin[axis1 - 1][col] * sitespin[axis1-2][col];
 		nn_en -=J*J_x[axis1-1][col] * sitespin[axis1-1][col] * sitespin[0][col];
-
 	}
 
 	if (col == 0)
 	{
 		nn_en -=J*J_y[row][axis2-1] * sitespin[row][0] * sitespin[row][axis2-1];
 		nn_en -= J*J_y[row][0] * sitespin[row][0] * sitespin[row][1];
-
 	}
 
 	if (col == axis2-1)
 	{
 		nn_en -=J*J_y[row][axis2-2] * sitespin[row][axis2-1] * sitespin[row][axis2-2];
 		nn_en -=J*J_y[row][axis2-1] * sitespin[row][axis2-1] * sitespin[row][0];
-
 	}
+
 	return nn_en;
 }
 
