@@ -12,6 +12,7 @@
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/uniform_real_distribution.hpp>
 #include <gsl/gsl_integration.h>
+#include <boost/lexical_cast.hpp>
 #include <interp2d.hpp> // For interpolation
 #include <tabdatrw.hpp> // For tabdatr and tabdatw
 #include <vector>
@@ -20,28 +21,48 @@
 // Its data-type is boost::random::mt19937
 boost::random::mt19937 gen;
 using namespace std;
-
+using boost::lexical_cast;
+using boost::bad_lexical_cast;
 
 double J=1.0;
-unsigned int axis2=32;
+unsigned int axis2=8;
 
 //Function templates
 double f (double , void * params);
 double g (double , void * params);
 
-int main()
+int main(int argc, char const * argv[])
 {	
 
 	double beta_min(0), beta_max(0), del_beta(0);
+	if (argc != 4)
+	{
+		cout << "Expecting three inputs: beta_min, beta_max, del_beta."
+		     << endl << "Got " << argc - 1 << endl;
+		return 1;
+	}
+	
+	try
+	{
+		beta_min = lexical_cast<double>(argv[1]);
+		beta_max = lexical_cast<double>(argv[2]);
+		del_beta = lexical_cast<double>(argv[3]);
+	}
+	catch (const bad_lexical_cast & x)
+	{
+		cout << "Cannot convert input to double" << endl;
+		return 2;
+	}
 
-	cout << "Enter minimum beta" << endl;
-	cin >> beta_min;
 
-	cout << "Enter maximum beta" << endl;
-	cin >> beta_max;
+//	cout << "Enter minimum beta" << endl;
+//	cin >> beta_min;
 
-	cout << "Enter increment of beta at each step" << endl;
-	cin >> del_beta;
+//	cout << "Enter maximum beta" << endl;
+//	cin >> beta_max;
+
+//	cout << "Enter increment of beta at each step" << endl;
+//	cin >> del_beta;
 
 	
 	double mut_info(0); //mutual information I_2

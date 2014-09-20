@@ -41,7 +41,7 @@ double random_real(int a, int b);
 double energy_tot(array_2d sitespin, array_2d J_x, array_2d J_y);
 double nn_energy(array_2d sitespin,  array_2d J_x, array_2d J_y, unsigned int row, unsigned int col);
 
-int main(int argc, char * argv[])
+int main(int argc, char const * argv[])
 {
 	if (argc != 4)
 	{
