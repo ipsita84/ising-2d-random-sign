@@ -62,9 +62,9 @@ int main(int argc, char const * argv[])
 //	cin >> del_beta;
 	double mut_info(0); //mutual information I_2
 	ofstream fout("I2-vs-beta-32.dat"); // Opens a file for output
-	vvdouble vm = tabdatr("Em-32.dat", 2);//modified energy data
+	vvdouble vm = tabdatr("E-32.dat", 2);//modified energy data
 	interp_data idm(vm,1);
-	vvdouble vn = tabdatr("E-32.dat", 2);//normal energy data
+	vvdouble vn = tabdatr("Em-32.dat", 2);//normal energy data
 	interp_data idn(vn,1);
 //	gsl_integration_workspace * w
 //          = gsl_integration_workspace_alloc (1000);
@@ -83,12 +83,13 @@ int main(int argc, char const * argv[])
 //gsl_integration_cquad (const gsl_function * f, double a, double b, double epsabs, double epsrel, gsl_integration_cquad_workspace * workspace, double * result, double * abserr, size_t * nevals)
 		gsl_integration_cquad (&F, 0,     beta, 1e-6, 1e-4,
 		                       w, &term2, &abs_error, &nevals);
-		gsl_integration_cquad (&F, 0, 2.0*beta, 1e-6, 1e-4,
-		                       w, &term3, &abs_error, &nevals);
-		F.function = &g;
+//		gsl_integration_cquad (&F, 0, 2.0*beta, 1e-6, 1e-4,
+//		                       w, &term3, &abs_error, &nevals);
 		F.params = &idm;
 		gsl_integration_cquad (&F, 0, beta, 1e-6, 1e-4, w, &term1,
 		                       &abs_error, &nevals);
+		gsl_integration_cquad (&F, 0, 2.0*beta, 1e-6, 1e-4,
+		                       w, &term3, &abs_error, &nevals);
 		mut_info =2.0*term1 -2.0* term2 - term3;
 		fout << beta << '\t' << mut_info /axis2 << endl;
 	}
@@ -103,12 +104,4 @@ double f (double beta, void * params)
 	interp_data p = *(interp_data *) params;
 	return p.interp_akima(beta);
 }
-
-double g (double beta, void * params)
-{
-	interp_data p = *(interp_data *) params;
-	return p.interp_akima(beta);
-}
-
-
 
