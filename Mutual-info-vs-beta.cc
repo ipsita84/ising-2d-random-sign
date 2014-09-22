@@ -61,10 +61,10 @@ int main(int argc, char const * argv[])
 //	cout << "Enter increment of beta at each step" << endl;
 //	cin >> del_beta;
 	double mut_info(0); //mutual information I_2
-	ofstream fout("I2-vs-beta-32.dat"); // Opens a file for output
-	vvdouble vm = tabdatr("Em-32.dat", 2);//modified energy data
+	ofstream fout("I2-vs-beta-8.dat"); // Opens a file for output
+	vvdouble vm = tabdatr("Em-8.dat", 2);//modified energy data
 	interp_data idm(vm,1);
-	vvdouble vn = tabdatr("E-32.dat", 2);//normal energy data
+	vvdouble vn = tabdatr("E-8.dat", 2);//normal energy data
 	interp_data idn(vn,1);
 //	gsl_integration_workspace * w
 //          = gsl_integration_workspace_alloc (1000);
