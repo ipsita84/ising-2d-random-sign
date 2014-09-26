@@ -1,4 +1,4 @@
-// g++ -Wall -O3 E-vs-beta-sim-anl.cc -o testo
+// g++ -Wall -O3 E-vs-beta-sim-anl.cc -o normal
 // Run with command line arguments, e.g. ./testo betamin betamax delbeta
 // Considering 2d ising model in zero magnetic field with random J sign
 //warming up system for first N_mc/10 loops
@@ -51,8 +51,8 @@ int main(int argc, char const * argv[])
 	array_2d J_x(boost::extents[axis1][axis2]);
 	array_2d J_y(boost::extents[axis1][axis2]);
 	//Read the random signed bonds for a particular stored realization
-	ifstream gxin("Jx-32.dat");
-	ifstream gyin("Jy-32.dat");
+	ifstream gxin("Jx-32-3.dat");
+	ifstream gyin("Jy-32-3.dat");
 
 	for (unsigned int i = 0; i < axis1; ++i)
 	{
@@ -65,6 +65,7 @@ int main(int argc, char const * argv[])
 
 	gxin.close();
 	gyin.close();
+
 	double beta_min(0), beta_max(0), del_beta(0);
 
 	try
@@ -86,10 +87,15 @@ int main(int argc, char const * argv[])
 //	cout << "Enter increment of beta" << endl;
 //	cin >> del_beta;
 	ofstream fout("E-8.dat");	// Opens a file for output
+	ofstream gout("EA-8-3.dat");
 
 //      Create a 2d array that is axis1 * axis2
 	array_2d sitespin(boost::extents[axis1][axis2]);
 //      stores the spin configuration of the system
+
+	array_2d sitespinsum(boost::extents[axis1][axis2]);
+
+
 //      initial state chosen by random no. generator above
 	for (unsigned int i = 0; i < axis1; ++i)
 		for (unsigned int j = 0; j < axis2; ++j)
@@ -97,11 +103,18 @@ int main(int argc, char const * argv[])
 
 	double energy = energy_tot(sitespin, J_x, J_y);
 	
+	fout << 0 << '\t' << 0 << endl;
+	gout << 0 << '\t' << 0 << endl;
 
-	for (double beta = beta_min; beta < beta_max + del_beta; beta += del_beta)
+	for (double beta =beta_min + del_beta; beta < beta_max + del_beta; beta += del_beta)
 	{
-		double en_sum(0);
+		double en_sum(0), EA(0);
 		unsigned int sys_size = axis1 * axis2;
+
+		for (unsigned int k = 0; k < axis1; ++k)
+			for (unsigned int l = 0; l < axis2; ++l)
+			sitespinsum[k][l] = 0;
+
 		for (unsigned int i = 1; i <=1e5+N_mc; ++i)
 		{
 			for (unsigned int j = 1; j <= sys_size; ++j)
@@ -135,14 +148,25 @@ int main(int argc, char const * argv[])
 				}
 			}
 
-			if (i > 1e5) en_sum += energy;
+			if (i > 1e5) 
+			{	en_sum += energy;
+				for (unsigned int k = 0; k < axis1; ++k)
+					for (unsigned int l = 0; l < axis2; ++l)
+					sitespinsum[k][l] += sitespin[k][l] ;
+			}
 		}
 
-		fout << beta
-		     << '\t' << en_sum / N_mc << endl;
+		fout << beta << '\t' << en_sum / N_mc << endl;
+
+		for (unsigned int i = 0; i < axis1; ++i)
+			for (unsigned int j = 0; j < axis2; ++j)
+			EA += sitespinsum[i][j]*sitespinsum[i][j] / (N_mc*N_mc);
+//prints Edwards-Anderson order parameter for each beta value
+		gout << beta << '\t' << EA / sys_size << endl;
 	}
 
 	fout.close();
+	gout.close();
 	return 0;
 }
 
