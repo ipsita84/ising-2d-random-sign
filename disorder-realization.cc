@@ -31,8 +31,8 @@ int main()
 	array_2d J_x(boost::extents[axis1][axis2]);
 	array_2d J_y(boost::extents[axis1][axis2]);
 	//Assign random sign to each NN bond & store in an array
-	ofstream fout("Jx-32-2.dat");	// Opens a file for output
-	ofstream gout("Jy-32-2.dat");
+	ofstream fout("Jx-32-3.dat");	// Opens a file for output
+	ofstream gout("Jy-32-3.dat");
 
 	for (unsigned int i = 0; i < axis1; ++i)
 	{
@@ -41,7 +41,7 @@ int main()
 			J_x[i][j] = 2 * roll_coin(0, 1) - 1;
 			J_y[i][j] = 2 * roll_coin(0, 1) - 1;
 			fout << J_x[i][j] << endl;
-			gout << J_x[i][j] << endl;
+			gout << J_y[i][j] << endl;
 		}
 	}
 
