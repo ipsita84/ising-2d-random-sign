@@ -102,23 +102,16 @@ int main(int argc, char * argv[])
 	array_2d sitespin2(boost::extents[axis1][axis2]);
 
 	//For subsystem A,both replicas have same spin configuration
-	for (unsigned int i = 0; i < axis1/2; ++i)
+	for (unsigned int i = 0; i < axis1; ++i)
 		for (unsigned int j = 0; j < axis2; ++j)
 		{
 			sitespin1[i][j] = 2 * roll_coin(0, 1) - 1;
 			sitespin2[i][j] = sitespin1[i][j];
 		}
 
-	//For subsystem B, the two replicas have independent spin configurations
-	for (unsigned int i = axis1/2 ; i < axis1; ++i)
-		for (unsigned int j = 0; j < axis2; ++j)
-		{
-			sitespin1[i][j] = 2 * roll_coin(0, 1) - 1;
-			sitespin2[i][j] = 2 * roll_coin(0, 1) - 1;
-		}
 
-	double energy = energy_tot(sitespin1, J_x, J_y);
-	energy += energy_tot(sitespin2, J_x, J_y);
+	double energy = 2*energy_tot(sitespin1, J_x, J_y);
+
 
 	
 	//calculate avg energy for replica spin config at temp 1/beta
@@ -249,6 +242,7 @@ double random_real(int a, int b)
 	return dist(gen);
 }
 
+
 //function to calculate total energy
 //for a given spin configuration
 //with periodic boundary conditions
@@ -261,17 +255,26 @@ double energy_tot(array_2d sitespin, array_2d J_x, array_2d J_y)
 	{
 		for (unsigned int j = 0; j < axis2 - 1; ++j)
 		{
-			energy -= J*J_x[i][j]*sitespin[i][j]*sitespin[i+1][j];
-			energy -= J*J_y[i][j]*sitespin[i][j]*sitespin[i][j+1];
+			energy += J_x[i][j]*sitespin[i][j]*sitespin[i+1][j];
+			energy += J_y[i][j]*sitespin[i][j]*sitespin[i][j+1];
 		}
 	}
 
 	//periodic boundary conditions
-	for (unsigned int j = 0; j < axis2; ++j)
-		energy -= J*J_x[axis1-1][j]*sitespin[axis1-1][j] * sitespin[0][j];
+	for (unsigned int j = 0; j < axis2-1; ++j) // for i=axis1-1
+	 {energy += J_x[axis1-1][j]*sitespin[axis1-1][j] * sitespin[0][j];
+	  energy += J_y[axis1-1][j]*sitespin[axis1-1][j]*sitespin[axis1-1][j+1];
+	 }
 
-	for (unsigned int i = 0; i < axis1; ++i)
-		energy -= J*J_y[i][axis2-1]*sitespin[i][axis2-1] * sitespin[i][0];
+	for (unsigned int i = 0; i < axis1-1; ++i) // for j=axis2-1
+	 {energy += J_y[i][axis2-1]*sitespin[i][axis2-1] * sitespin[i][0];
+	  energy += J_x[i][axis2-1]*sitespin[i][axis2-1]*sitespin[i+1][axis2-1];
+	 }
+
+	energy += J_x[axis1-1][axis2-1]*sitespin[axis1-1][axis2-1]*sitespin[0][axis2-1];
+	energy += J_y[axis1-1][axis2-1]*sitespin[axis1-1][axis2-1]*sitespin[axis1-1][0];
+	
+	
 
 	return energy;
 }
