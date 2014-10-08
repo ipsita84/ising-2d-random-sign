@@ -27,7 +27,8 @@ boost::multi_array < int, 2 > array_2d;
 
 // Magnitude of J
 double J = 1.0;
-const unsigned int axis1 = 8, axis2 = 8;
+const unsigned int axis1 = 8;
+const unsigned int axis2 = axis1;
 // above assigns length along each dimension of the 2d configuration
 
 //No.of Monte Carlo updates we want
@@ -51,8 +52,8 @@ int main(int argc, char const * argv[])
 	array_2d J_x(boost::extents[axis1][axis2]);
 	array_2d J_y(boost::extents[axis1][axis2]);
 	//Read the random signed bonds for a particular stored realization
-	ifstream gxin("Jx-32-3.dat");
-	ifstream gyin("Jy-32-3.dat");
+	ifstream gxin("Jx.dat");
+	ifstream gyin("Jy.dat");
 
 	for (unsigned int i = 0; i < axis1; ++i)
 	{
@@ -86,8 +87,8 @@ int main(int argc, char const * argv[])
 //	cin >> beta_max;
 //	cout << "Enter increment of beta" << endl;
 //	cin >> del_beta;
-	ofstream fout("E-8.dat");	// Opens a file for output
-	ofstream gout("EA-8-3.dat");
+	ofstream fout("E.dat");	// Opens a file for output
+	ofstream gout("EA.dat");
 
 //      Create a 2d array that is axis1 * axis2
 	array_2d sitespin(boost::extents[axis1][axis2]);

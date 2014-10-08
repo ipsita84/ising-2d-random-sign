@@ -1,4 +1,4 @@
-//  g++ -Wall -O3 Em-vs-beta-Replica-sim-anl.cc -o replica
+//  g++ -Wall -O3 Em-vs-beta-Replica-sim-anl2.cc -o replica
 // Run with command line arguments, e.g. ./testo betamin betamax delbeta
 
 // Chose same initial spin config. for both replicas
@@ -26,7 +26,8 @@ boost::multi_array < int, 2 > array_2d;
 // Magnitude of J
 double J = 1.0;
 
-const unsigned int axis1 = 8, axis2 = 8;
+const unsigned int axis1 = 8 ;
+const unsigned int axis2 = axis1;
 //axis1 should be of even no. of sites
 // above assigns length along each dimension of the 2d configuration
 
@@ -69,13 +70,13 @@ int main(int argc, char * argv[])
 //	cin >> beta_max;
 //	cout << "Enter increment of beta" << endl;
 //	cin >> del_beta;
-	ofstream fout("Em-8.dat"); // Opens a file for output
+	ofstream fout("Em.dat"); // Opens a file for output
 
 	array_2d J_x(boost::extents[axis1][axis2]);
 	array_2d J_y(boost::extents[axis1][axis2]);
 	//Read the random signed bonds for a particular stored realization
-	ifstream gxin("Jx-32-2.dat");
-	ifstream gyin("Jy-32-2.dat");
+	ifstream gxin("Jx.dat");
+	ifstream gyin("Jy.dat");
 
 	for (unsigned int i = 0; i < axis1; ++i)
 	{
