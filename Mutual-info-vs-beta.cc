@@ -1,4 +1,4 @@
-//  g++ -Wall -O3 `pkg-config --cflags --libs gsl tabdatrw-0.3 interp2dpp` triang-2d-Renyi-vs-beta.cc -o testo
+// g++ -Wall -O3 `pkg-config --cflags --libs gsl tabdatrw-0.3 interp2dpp` Mutual-info-vs-beta.cc -o mi
 // 2nd Renyi entropy for classical 2d Ising model in zero magnetic field
 //Metropolis algorithm employed
 //Parameters that can be changed for different runs:
@@ -25,7 +25,8 @@ using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
 double J=1.0;
-unsigned int axis2=8;
+const unsigned int axis1=8;
+const unsigned int axis2=axis1;
 
 //Function templates
 double f (double , void * params);
@@ -61,10 +62,10 @@ int main(int argc, char const * argv[])
 //	cout << "Enter increment of beta at each step" << endl;
 //	cin >> del_beta;
 	double mut_info(0); //mutual information I_2
-	ofstream fout("I2-vs-beta-8.dat"); // Opens a file for output
-	vvdouble vm = tabdatr("Em-8.dat", 2);//modified energy data
+	ofstream fout("I2.dat"); // Opens a file for output
+	vvdouble vm = tabdatr("Em.dat", 2);//modified energy data
 	interp_data idm(vm,1);
-	vvdouble vn = tabdatr("E-8.dat", 2);//normal energy data
+	vvdouble vn = tabdatr("E.dat", 2);//normal energy data
 	interp_data idn(vn,1);
 //	gsl_integration_workspace * w
 //          = gsl_integration_workspace_alloc (1000);
