@@ -15,17 +15,20 @@
 
 all: disorder normal replica mutualinfo
 
-disorder: disorder-equal-plus-minus.cc
-	g++ -Wall -O3 disorder-equal-plus-minus.cc -o disorder
+CFLAGS = -I${HOME}/usr/include
+LDFLAGS = -L${HOME}/usr/lib
 
-normal: E-vs-beta-Normal.cc
-	g++ -Wall -O3 E-vs-beta-Normal.cc -o normal
+disorder: disorder-equal-plus-minus.cc
+	g++ -Wall ${CFLAGS} ${LDFLAGS}-O3 disorder-equal-plus-minus.cc -o disorder
+
+normal: E-vs-beta-sim-anl.cc
+	g++ -Wall ${CFLAGS} ${LDFLAGS} -O3 E-vs-beta-sim-anl.cc -o normal
 	
 replica: Em-vs-beta-Replica-sim-anl2.cc
-	g++ -Wall -O3 Em-vs-beta-Replica-sim-anl2.cc -o replica
+	g++ -Wall ${CFLAGS} ${LDFLAGS} -O3 Em-vs-beta-Replica-sim-anl2.cc -o replica
 
 mutualinfo: Mutual-info-vs-beta.cc
-	g++ -Wall -O3 \
+	g++ -Wall -O3 ${CFLAGS} ${LDFLAGS} \
 	`pkg-config --cflags --libs gsl tabdatrw-0.4 interp2dpp` \
 	Mutual-info-vs-beta.cc -o mutualinfo
 	
