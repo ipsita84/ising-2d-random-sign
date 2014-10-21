@@ -19,7 +19,8 @@ typedef
 boost::multi_array < int, 2 > array_2d;
 // typedef keyword allows you to create an alias fo a data type
 
-const unsigned int axis1 = 32, axis2 = 32;
+const unsigned int axis1 = 8;
+const unsigned int axis2=axis1;
 // above assigns length along each dimension of the 2d configuration
 
 //Function templates
@@ -31,8 +32,8 @@ int main()
 	array_2d J_x(boost::extents[axis1][axis2]);
 	array_2d J_y(boost::extents[axis1][axis2]);
 	//Assign random sign to each NN bond & store in an array
-	ofstream fout("Jx-32-3.dat");	// Opens a file for output
-	ofstream gout("Jy-32-3.dat");
+	ofstream fout("Jx.dat");	// Opens a file for output
+	ofstream gout("Jy.dat");
 
 	for (unsigned int i = 0; i < axis1; ++i)
 	{
