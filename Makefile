@@ -11,8 +11,8 @@
 # Special commands:
 # "make clean" will remove all generated binaries and .o object
 # files;
-# "make all" will compile all three source files and generate all
-# three binaries in one step.
+# "make all" will compile all 4 source files and generate all
+# 4 binaries in one step.
 
 all: disorder normal replica mutualinfo
 
