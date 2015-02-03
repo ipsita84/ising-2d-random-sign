@@ -1,6 +1,7 @@
-# Creates three binaries by compiling three different source files:
+# Creates three binaries by compiling 4 different source files:
 # normal: E-vs-beta-Normal.cc
-# replica: Em-vs-beta-Replica-sim-anl2.cc
+# replicaA: EmA-vs-beta.cc
+# replicaB: EmB-vs-beta.cc
 # mutualinfo: Mutual-info-vs-beta.cc
 
 # Example:
