@@ -113,7 +113,7 @@ int main(int argc, char const * argv[])
 // I2 =-2\int_0^{\beta} E - \int_0^{2 \beta} E 
 //   + \int_0^{\beta} E_replica_A + \int_0^{\beta} E_replica_B
 
-                mut_info = int_EA_T + int_EB_T - int_E_T - int_E_Tby2;
+                mut_info = int_EA_T + int_EB_T -2.0*int_E_T - int_E_Tby2;
 		fout << beta << '\t' << mut_info /axis2 << endl;
 	}
 
