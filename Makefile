@@ -14,7 +14,7 @@
 # "make all" will compile all 4 source files and generate all
 # 4 binaries in one step.
 
-all: disorder normal replica mutualinfo
+all: disorder normal replicaA replicaB mutualinfo
 
 disorder: disorder-equal-plus-minus.cc
 	g++ -Wall -O3 disorder-equal-plus-minus.cc -o disorder
