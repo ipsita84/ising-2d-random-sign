@@ -40,6 +40,7 @@ const unsigned int axis2=axis1;
 //Function templates
 double f (double , void * params);
 double g (double , void * params);
+double h (double , void * params);
 
 int main(int argc, char const * argv[])
 {
@@ -74,10 +75,10 @@ int main(int argc, char const * argv[])
 	ofstream fout("I2.dat"); // Opens a file for output
 
 	vvdouble vmA = tabdatr("EmA.dat", 2);//modified energy data for A
-	interp_data idm(vmA,1);
+	interp_data idmA(vmA,1);
 
 	vvdouble vmB = tabdatr("EmB.dat", 2);//modified energy data for B
-	interp_data idm(vmB,1);
+	interp_data idmB(vmB,1);
 
 	vvdouble vn = tabdatr("E.dat", 2);//normal energy data
 	interp_data idn(vn,1);
