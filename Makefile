@@ -1,4 +1,4 @@
-# Creates three binaries by compiling 4 different source files:
+# Creates 4 binaries by compiling 4 different source files:
 # normal: E-vs-beta-Normal.cc
 # replicaA: EmA-vs-beta.cc
 # replicaB: EmB-vs-beta.cc
