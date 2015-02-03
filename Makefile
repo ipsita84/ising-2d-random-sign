@@ -23,10 +23,10 @@ normal: E-vs-beta-Normal.cc
 	g++ -Wall -O3 E-vs-beta-Normal.cc -o normal
 	
 replicaA: EmA-vs-beta.cc
-	g++ -Wall -O3 EmB-vs-beta.cc -o replica
+	g++ -Wall -O3 EmB-vs-beta.cc -o replicaA
 
 replicaB: EmB-vs-beta.cc
-	g++ -Wall -O3 EmA-vs-beta.cc -o replica
+	g++ -Wall -O3 EmA-vs-beta.cc -o replicaB
 
 mutualinfo: Mutual-info-vs-beta.cc
 	g++ -Wall -O3 \
@@ -38,4 +38,4 @@ mutualinfo: Mutual-info-vs-beta.cc
 .PHONY: clean
 
 clean:
-	rm -f normal replica mutualinfo *.o 
+	rm -f normal replicaA replicaB mutualinfo *.o 
