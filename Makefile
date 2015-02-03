@@ -21,13 +21,18 @@ disorder: disorder-equal-plus-minus.cc
 normal: E-vs-beta-Normal.cc
 	g++ -Wall -O3 E-vs-beta-Normal.cc -o normal
 	
-replica: Em-vs-beta-Replica-sim-anl2.cc
-	g++ -Wall -O3 Em-vs-beta-Replica-sim-anl2.cc -o replica
+replicaA: EmA-vs-beta.cc
+	g++ -Wall -O3 EmB-vs-beta.cc -o replica
+
+replicaB: EmB-vs-beta.cc
+	g++ -Wall -O3 EmA-vs-beta.cc -o replica
 
 mutualinfo: Mutual-info-vs-beta.cc
 	g++ -Wall -O3 \
 	`pkg-config --cflags --libs gsl tabdatrw-0.4 interp2dpp` \
-	Mutual-info-vs-beta.cc -o mutualinfo
+#	g++ -Wall -O3 \
+#	`pkg-config --cflags --libs gsl tabdatrw interp2dpp` \
+#	Mutual-info-vs-beta.cc -o mutualinfo
 	
 .PHONY: clean
 
