@@ -1,4 +1,4 @@
-//  g++ -Wall -O3 Em-vs-beta-Replica-sim-anl2.cc -o replica
+//  g++ -Wall -O3 EmA-vs-beta.cc -o replica
 // Run with command line arguments, e.g. ./testo betamin betamax delbeta
 
 // Energy for replicated A -- gives S_2(A)
