@@ -26,10 +26,10 @@ normal: E-vs-beta-sim-anl.cc
 	icpc -Wall ${CFLAGS} ${LDFLAGS} -O3 E-vs-beta-sim-anl.cc -o normal
 	
 replicaA: EmA-vs-beta.cc
-	icpc -Wall ${CFLAGS} ${LDFLAGS} -O3 EmA-vs-beta.cc -o replica
+	icpc -Wall ${CFLAGS} ${LDFLAGS} -O3 EmA-vs-beta.cc -o replicaA
 
 replicaB: EmB-vs-beta.cc
-	icpc -Wall ${CFLAGS} ${LDFLAGS} -O3 EmB-vs-beta.cc -o replica
+	icpc -Wall ${CFLAGS} ${LDFLAGS} -O3 EmB-vs-beta.cc -o replicaB
 
 mutualinfo: Mutual-info-vs-beta.cc
 	icpc -Wall -O3 ${CFLAGS} ${LDFLAGS} \
@@ -39,4 +39,4 @@ mutualinfo: Mutual-info-vs-beta.cc
 .PHONY: clean
 
 clean:
-	rm -f normal replica mutualinfo *.o 
+	rm -f normal replicaA replicaB mutualinfo *.o 
