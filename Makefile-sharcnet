@@ -14,7 +14,7 @@
 # "make all" will compile all 4 source files and generate all
 # 4 binaries in one step.
 
-all: disorder normal replica mutualinfo
+all: disorder normal replicaA replicaB mutualinfo
 
 CFLAGS = -I${HOME}/usr/include
 LDFLAGS = -L${HOME}/usr/lib
