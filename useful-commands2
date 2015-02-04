@@ -1,0 +1,8 @@
+find ./ -name "I2.dat" -exec wc -l '{}' \; | grep -v "150" | awk '{ print $2 }' > bad-files.txt
+-------------------------------
+awk 'BEGIN {FS="/"}; {print $2}' bad-files.txt
+-------------------------------
+mkdir ../BACKUPS-20150203
+-------------------------------
+for i in `awk 'BEGIN {FS="/"}; {print $2}' bad-files.txt`; do mv ${i} ../BACKUPS-20150203/; done
+
