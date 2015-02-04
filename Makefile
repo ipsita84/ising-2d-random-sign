@@ -1,5 +1,5 @@
 # Creates 4 binaries by compiling 4 different source files:
-# normal: E-vs-beta-Normal.cc
+# normal:E-vs-beta-sim-anl.cc
 # replicaA: EmA-vs-beta.cc
 # replicaB: EmB-vs-beta.cc
 # mutualinfo: Mutual-info-vs-beta.cc
@@ -20,7 +20,7 @@ disorder: disorder-equal-plus-minus.cc
 	g++ -Wall -O3 disorder-equal-plus-minus.cc -o disorder
 
 normal: E-vs-beta-Normal.cc
-	g++ -Wall -O3 E-vs-beta-Normal.cc -o normal
+	g++ -Wall -O3 E-vs-beta-sim-anl.cc -o normal
 	
 replicaA: EmA-vs-beta.cc
 	g++ -Wall -O3 EmB-vs-beta.cc -o replicaA
