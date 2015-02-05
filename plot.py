@@ -6,10 +6,10 @@ import sys, os
 from math import *
 import numpy as nm
 
-#specify fonts for plots and enable using Latex:
-from matplotlib import rc
-rc('font',**{'family':'serif','serif':['Computer Modern']})
-rc('text', usetex=True)
+##specify fonts for plots and enable using Latex:
+#from matplotlib import rc
+#rc('font',**{'family':'serif','serif':['Computer Modern']})
+#rc('text', usetex=True)
 
 
 #edat  = 'E.dat'
@@ -43,7 +43,8 @@ for filename in lof_i2:
 		EAvg_list.append(float(EAvg))
 		if (float(EAvg) < 0):
 			labflag=True
-		
+			print(filename)
+
 	if (labflag):
 		plt.plot(beta_list, EAvg_list, label=filename)
 	else:
@@ -53,11 +54,11 @@ for filename in lof_i2:
 
 #Label the plot:
 plt.xlabel(r'$\beta$', fontsize=20)              #label for the x-axis
-plt.ylabel(r'$\langle E \rangle$', fontsize=20)  #label for the y-axis
+plt.ylabel(r'$ I_{2}/14 $', fontsize=20)  #label for the y-axis
 #plt.legend(prop={'size':16},loc='lower right')   #info about legend
-plt.axis([0, 0.42, plt.axis()[2], plt.axis()[3]])
+plt.axis([0, 1, plt.axis()[2], plt.axis()[3]])
 #Save the plot as a pdf:
-plt.savefig('I2VsBeta.pdf',bbox_inches='tight')
+plt.savefig('I2VsBeta-14.pdf',bbox_inches='tight')
 
 #Display the plot:
 plt.show()
