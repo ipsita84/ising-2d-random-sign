@@ -45,10 +45,14 @@ for filename in lof_i2:
 			labflag=True
 			print(filename)
 
+	std = nm.std(EAvg_list)
+
 	if (labflag):
 		plt.plot(beta_list, EAvg_list, label=filename)
+		plt.errorbar(beta_list, EAvg_list, xerr=0, yerr=std, label=filename)
 	else:
 		plt.plot(beta_list, EAvg_list)
+		plt.errorbar(beta_list, EAvg_list, xerr=0, yerr=std)
 
 #	plt.plot(beta_list, EAvg_list)
 

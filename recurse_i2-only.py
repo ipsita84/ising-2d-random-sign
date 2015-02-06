@@ -32,4 +32,7 @@ def get_avg_arr(lof):
 
 dat, avg = get_avg_arr(lof_i2)
 res = nm.array([dat, avg])
-nm.savetxt("I2-avg.dat", res.T, fmt='% .3f\t% .5E')
+std = nm.std(avg, dtype=nm.float64)
+std = sqrt(std)
+nm.savetxt("I2-avg.dat", res.T, fmt='% .3f\t% .5E',
+           header='Std. deviation: {:.5E}'.format(std))
