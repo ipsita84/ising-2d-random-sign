@@ -1,0 +1,285 @@
+\documentclass[a4paper,aps,prl,reprint,superscriptaddress,twocolumn,floatfix]{revtex4-1}
+
+
+\pdfoutput=1
+
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[caption=false]{subfig}
+
+
+
+
+
+
+\bibliographystyle{apsrev4-1}
+
+\begin{document}
+
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\beqa}{\begin{eqnarray}}
+\newcommand{\eeqa}{\end{eqnarray}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\hs}{\hspace{0.5cm}}
+\newcommand{\vs}{\vspace{0.5cm}}
+
+\title{Glassy...}
+
+\author{Ipsita Mandal}
+\affiliation{....}
+
+\author{ P. V. Sriluckshmy}
+\affiliation{....}
+
+\author{Stephen Inglis}
+\affiliation{Department of Physics and Arnold Sommerfeld
+Center for Theoretical Physics, Ludwig-Maximilians-Universit\"at
+M\"unchen, D-80333 M\"unchen, Germany}
+
+
+\author{Roger G. Melko}
+\affiliation{Perimeter Institute for Theoretical Physics, Waterloo, Ontario N2L 2Y5, Canada}
+\affiliation{Department of Physics and Astronomy, University of Waterloo, Ontario, N2L 3G1, Canada}
+
+\date{\today}
+
+\begin{abstract}
+We reexamine the presence or absence of finite temperature phase transition for the $2d$ Edwards-Anderson spin glass model.
+using the method of classical Monte Carlo simulations, 
+which, via a replica-trick calculation, can be used to study the shape-dependence of the classical R\'enyi entropies
+for a torus divided into two cylinders.
+From the second R\'enyi entropy, we calculate the Geometrical Mutual Information (GMI) introduced by St\'ephan {\it et. al.}~
+[Phys. Rev. Lett. 112, 127204 (2014)]. The absence of a unique crossing point supports the fact that the system does not order at any finite temperature. However, modifying the model by adding  ferromagnetic next nearest neighbour interactions drives the system to go into an ordered phase at a finite temperature.
+\end{abstract}
+
+\maketitle
+
+{\em Introduction --}
+It is now well-established that there is a deep connection between certain measurable thermodynamic quantities
+and principles of information theory.  
+Most straightforwardly, information can be quantified in terms of entropy, which can be defined from thermodynamic observables \cite{shannon,cardy}. 
+For finite-temperature phase transitions, critical points are characterized by infinite
+correlation lengths, indicative of the existence of long-range
+channels for information transfer.  
+It is interesting to ask whether observables derived from information quantities can be used to characterize
+classical phase transitions.
+Despite the answer being non-trivial, the R\'enyi entropies have recently been used to 
+detect and classify phase transitions in a number of
+classical systems \cite{stephen2013,stephan2014,troyer,vidal,Alba1,Alba2,stephen2016,Johannes}.
+In particular, a mutual information derived from the second R\'enyi entropy \cite{melko2010,Singh,WL} has been very successful in 
+detecting finite-temperature critical points, even identifying their universality class
+without any {\it a priori} knowledge of an order parameter or associated broken symmetry.
+
+
+The utility of the second R\'enyi entropy was demonstrated in a striking way by the introduction of the 
+``Geometrical Mutual Information" (GMI) by St\'ephan {\it et. al.} \cite{stephan2014}, where it was shown that a 
+simple-to-implement classical Monte Carlo simulation of an Ising model at its phase transition
+was capable of calculating the central charge $c$ of the associated 1+1-dimensional conformal field theory (CFT)
+\cite{belavin,friedan,wilczek,kitaev,cardy}.
+Most straightforwardly, if the simulation is tuned to twice the critical temperature $T_c$ (for the second R\'enyi entropy), then a 
+simple finite-size scaling analysis is sufficient to extract $c$ using the functional form for the GMI obtained in
+Ref.~\cite{stephan2014} for a general CFT.  
+It follows that one may employ the GMI in the converse manner: knowing the expected theoretical value of the central charge $c$,
+the GMI can be used to estimate the parameters which lead to criticality in a model.  
+
+
+{\em Model}
+%/ Considering 2d ising model in zero magnetic field with random J sign
+The Edwards-Anderson model is given by
+%%%%%%%%%%%%%
+\beq 
+H = - \sum_{\langle i j \rangle} J_{ij} S^z_i S^z_j  ,
+\label{EA-model}
+\eeq
+%%%%%%%%%%%%%%%
+where $S^z_i = \pm 1 $ and $ \langle i j \rangle $ denotes nearest neighbor sites. The coupling strength $J_{ij}$  between near
+neighbor is random. It is a quenched disorder.
+
+We also consider a variation of this model by adding uniform ferromagnetic second near
+neighbor interactions of strength $ J_f$, which is predicted to have a finite temperature phase transition from numerical analysis \cite{ferro1,ferro2,ferro3}:
+\beq 
+H = - \sum_{\langle i j \rangle} J_{ij} S^z_i S^z_j - J_f \sum_{[ i j ] }  S^z_i S^z_j  ,
+\label{ferro-model}
+\eeq
+where  $ [ i j ]e $ denotes next nearest neighbor sites
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\em Method --}
+%%%%%%%%%%%%%%%
+Let us consider a classical spin system defined on a square lattice with the Hamiltonian in Eq.~\eqref{EA-model} or ~\eqref{ferro-model}.
+We can partition the lattice into two regions, $A$ and $B$,
+with the spin configurations within each subsystem labeled as
+$i_A$ and $i_B$ respectively. The probability of state $i_A$ occurring in subregion $A$
+is $p_{ i_ A }= \sum \limits_{i_B} p_{i_A ,i_B}$ , where $  p_{i_A ,i_B}
+= e^{ - \beta E(i_A ,i_B )  } / Z [T]  $
+is the probability of existence of any arbitrary state of the entire system, obtained from the Boltzmann distribution.
+Here $E(i_A , i_B )$ is the energy
+associated with the states $i_A$ and $i_B$, $\beta = {1} /{T}$,  and $Z[T] 
+=  \sum \limits_{i_A ,i_B} e^{ - \beta E(i_A ,i_B )} $
+is the partition function of $ A \cup B$. Now the second R\'enyi entropy for subregion $A$
+is defined by \cite{melko2010}:
+\begin{eqnarray}
+\label{s2}
+S_2 (A)&=& 
+- \ln   \left ( \sum_{ i_A}  p_{ i_ A }^2   \right )  \nonumber \\
+%%%%%%%%%%
+&=& -\ln \left ( \sum_{ i_A}
+\frac{  \sum \limits_{ i_B}  e^{ - \beta E(i_A ,i_B )}
+ \,  \sum \limits_{ j_B}  e^{ - \beta E(i_A ,j_B )} ) }
+{ Z^2 [T]}   \right ) \nonumber \\
+%%%%%%%%%%
+&=& -\ln \left ( Z[A,2,T] \right ) + 2 \ln \left ( Z[T] \right ) \,,
+\end{eqnarray}
+%%%%%%%%%%%%%%
+where $Z [A, 2, T ] =  \sum \limits_{i_A,  i_B, j_B}  e^{ - \beta \lbrace E(i_A ,i_B ) + E(i_A ,j_B ) \rbrace}$
+is the partition function of a new ``replicated'' system, such that the spins in subregion $A$ are constrained to be the same
+in both the replicas, while the spins in subregion $B$ are unrestricted for the two copies. The first condition leads the spins in the bulk of subregion $A$ to behave as if their effective temperature is $T/2$ for local interactions. The R{\'e}nyi mutual information (RMI) can now be defined as the symmetric quantity:
+\begin{eqnarray}
+\label{rmi}
+I_2 (A, B) &=& S_2 (A) + S_2 (B) - S_2 (A \cup B ) \nonumber \\
+%%%%%%%%%%
+&=& -\ln \left (
+\frac{  Z[ A,2, T] \,  Z[B, 2, T]
+}
+{  Z^2 [T] \,  Z[T/2] }
+\right) \,.
+\end{eqnarray}
+%%%%%%%%%%%%%
+This quantity has been demonstrated useful in the past for detecting finite-temperature phase transitions
+with great accuracy \cite{Singh,stephen2013,WL}.
+
+In two dimensions, the RMI can be used to define a universal quantity
+($ \mathcal {G}_2 $) called the geometric mutual information (GMI) \cite{stephan2014},
+\begin{equation}
+I_2 (A, B) = a_2 \,  L +  \mathcal {G}_2  + \mathcal{O} (1), \label{RMI}
+\end{equation}
+which is a function of the various aspect ratios in the system.
+%%%%%%%%%%
+Due to the symmetry of the RMI, all the bulk (``volume'') contributions occurring in the R{\'e}nyi entropy cancel. 
+This leaves the ``area-law'' as the leading order term in Eq.~\eqref{RMI}, proportional to $L$, 
+which is the length of the boundary between the subregions $A$ and $B$.
+In two dimensions, the exact expression for
+the partition function of a critical system can be found using CFT \cite{stephan2014,kleban1,kleban2,bondesan,cardy2,fradkin,zalatel,stephan2,eduardo,Singh,cardy3,affleck}. 
+For free external boundary conditions at $T = 2 \, T_c $,
+cutting an $L_x \times L_y$ system into two rectangular subregions $L_A \times L_y$
+and $ L_B \times L_y$, the expression for GMI is given by \cite{stephan2014}:
+%%%%
+\begin{equation}
+\label{gmi}
+\mathcal  G_2 = \frac{c} {2}
+\ln \left(
+\frac { f (L_A / L_x)  \, f (L_B / L_x) }
+{ \sqrt{ L_x }  \, f (L_y / L_x) }
+\right ) .
+\end{equation}
+Here, $c$ is the central charge of the associated CFT description of the critical point appearing at temperature $T_c$, and
+$f (u ) = \eta (i \, u)$ (where $\eta $ is the standard Dedekind eta function \cite{stegun}). 
+This allows us to define a finite-size scaling procedure to extract $c$ from numerical calculations 
+of the GMI.
+
+
+
+We compute the GMI using Monte Carlo simulations and the transfer-matrix ratio trick
+for classical systems \cite{gelman1998,tommaso,graph-theory}, using the formula
+%%%%
+\begin{eqnarray}
+\label{ratio}
+&& \frac{  Z [A,2, T] }   {  Z^2 [T] }
+= \prod \limits_{i=0}^{N-1}  \frac{  Z [A_{ i+1 } ,2, T] }   {   Z [A_i ,2, T] } \,,\nonumber \\
+%%%%%%%%%%
+&& Z [A_0 ,2, T]   = Z^2 [T] \,.
+\end{eqnarray}
+%%%%%%%%%%%%%%%%
+Here, $A_i$ 
+denotes a series of $N$ blocks of increasing size, the consecutive blocks differing by a
+one-dimensional strip of spins running parallel to the boundary separating $A$ and $B$, with $ A_0 $ being the empty region and $A_N = A$.
+The algorithm is well documented in Ref.~\cite{stephan2014}.  In addition to the procedure presented there, we combine parallel tempering to ensure that the states used to estimate the ratios of the partition functions, $
+\Big \lbrace \frac{  Z [A_{ i+1 } ,2, T] }   {   Z [A_i ,2, T] }  \Big \rbrace $ , are efficiently sampled.
+This is important when trying to accurately locate the tricritical point in the Blume-Capel model where critical slowing down can bias results from Monte Carlo simulations.
+In addition, having results over a grid of model parameters allows us to examine the quality of the fit to the universal shape function to compare to previous estimates for the tricritical temperature $T_{tc}$ and the coupling constant $D_{ tc } $.
+
+
+For a square system at $T= 2 \, T_c $ and all other parameters corresponding to the critical point, $c$ can be readily extracted from the quantity
+\begin{equation}
+\label{c}
+ I_2 (\ell, L) - I_2 (L/2 , L)
+ =\mathcal{J} (c ) \equiv
+\frac{c} {2}
+\ln \left(
+\frac {  f \left ( \ell / L \right )  \, f \left (1- {  \ell} /L  \right ) }
+% f \left (1- \frac{  \ell} {L}  \right ) }
+{  f^2 (1 /2) }
+\right ) .
+\end{equation}
+%%%%%%%%%%%%
+We compute $ [  I_2 (\ell, L) - I_2 (L/2 , L) ]$ numerically using Monte Carlo simulations
+at $T= 2 \, T_c $ and compared our data with this theoretical expectation. 
+Of course, the numerical data thus obtained is affected by significant finite-size effects. Hence, in order
+to use the above expression to obtain $c$, we perform a finite-size extrapolation as described in the next section.
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\em Results --}
+
+Fig.~\ref{i2} shows the RMI as a function of temperature,
+revealing a transition at $T_c$ and $2 \,T_c$ as crossings in $I_2(L/2, L)  /L$.
+The data used for this plot has been obtained by thermodynamic integration and imposing periodic boundary conditions on the lattice.
+
+Let us elaborate on how this finite-size analysis can be implemented.
+The function $ y(1/L) = m  /L \,  +  \, c_{ \text{extr} } $ is obtained for each $ \ell/L$, where $m$ is the slope
+and $ c_{ \text{extr}  }$ is the $y$-intercept for the data points corresponding to $ \Big ( x\equiv 1/L , \, y(x) \equiv  I_2 (\ell, L) - I_2 (L/2 , L) \Big  )$. 
+After collecting the $\lbrace c_{ \text{extr} } \rbrace $ for all ratios $\lbrace \ell/L \rbrace$, we fit
+these with the fitting function $\mathcal{J}(c )$, keeping $c$ as the free parameter.
+%%%%%%
+In other words, the set $\lbrace \ell/L, c_{ \text{extr} } \rbrace$ is fitted by numerically searching for the value of $c$ which makes $\mathcal{J}(c )$ fit the data best.
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\em Discussion --}
+In this paper, we have ......... on a square lattice by using classical Monte Carlo calculations of second R{\'e}nyi entropy.  
+First, by analyzing the Geometrical Mutual Information (GMI), 
+we have calculated the central charge of the low-energy conformal field theory (CFT) 
+description of the critical point.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\em Acknowledgments --} We thank.... for enlightening discussions. 
+ This work was made possible by the computing facilities of SHARCNET. Support was provided 
+by NSERC of Canada R.G.M.), ....... the FP7/ERC Starting Grant No. 306897 (S.I.), 
+and the National Science Foundation under Grant No. NSF PHY11-25915 (R.G.M).
+Research at the Perimeter Institute is supported, in
+part, by the Government of Canada through Industry Canada
+and by the Province of Ontario through the Ministry of
+Research and Information.
+
+\bibliography{glassy}
+
+\end{document}
