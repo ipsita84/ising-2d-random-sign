@@ -104,7 +104,7 @@ neighbor interactions of strength $ J_f$, which is predicted to have a finite te
 H = - \sum_{\langle i j \rangle} J_{ij} S^z_i S^z_j - J_f \sum_{[ i j ] }  S^z_i S^z_j  ,
 \label{ferro-model}
 \eeq
-where  $ [ i j ] $ denotes next nearest neighbor sites
+where  $ [ i j ] $ denotes next nearest neighbor sites. The couplings can be taken as $J_f =1$ and $J_{ij}=\pm \lambda$. The authors have found that the estimate of ordering temperatures were close to $2 . 0$ for $\lambda = 0 . 5, 0.7$ and drop to zero near $\lambda = 1$ and their simulations are controlled for $\lambda >0.5$.
 
 
 
@@ -154,38 +154,11 @@ I_2 (A, B) &=& S_2 (A) + S_2 (B) - S_2 (A \cup B ) \nonumber \\
 This quantity has been demonstrated useful in the past for detecting finite-temperature phase transitions
 with great accuracy \cite{Singh,stephen2013,WL}.
 
-In two dimensions, the RMI can be used to define a universal quantity
-($ \mathcal {G}_2 $) called the geometric mutual information (GMI) \cite{stephan2014},
-\begin{equation}
-I_2 (A, B) = a_2 \,  L +  \mathcal {G}_2  + \mathcal{O} (1), \label{RMI}
-\end{equation}
-which is a function of the various aspect ratios in the system.
-%%%%%%%%%%
-Due to the symmetry of the RMI, all the bulk (``volume'') contributions occurring in the R{\'e}nyi entropy cancel. 
-This leaves the ``area-law'' as the leading order term in Eq.~\eqref{RMI}, proportional to $L$, 
-which is the length of the boundary between the subregions $A$ and $B$.
-In two dimensions, the exact expression for
-the partition function of a critical system can be found using CFT \cite{stephan2014,kleban1,kleban2,bondesan,cardy2,fradkin,zalatel,stephan2,eduardo,Singh,cardy3,affleck}. 
-For free external boundary conditions at $T = 2 \, T_c $,
-cutting an $L_x \times L_y$ system into two rectangular subregions $L_A \times L_y$
-and $ L_B \times L_y$, the expression for GMI is given by \cite{stephan2014}:
-%%%%
-\begin{equation}
-\label{gmi}
-\mathcal  G_2 = \frac{c} {2}
-\ln \left(
-\frac { f (L_A / L_x)  \, f (L_B / L_x) }
-{ \sqrt{ L_x }  \, f (L_y / L_x) }
-\right ) .
-\end{equation}
-Here, $c$ is the central charge of the associated CFT description of the critical point appearing at temperature $T_c$, and
-$f (u ) = \eta (i \, u)$ (where $\eta $ is the standard Dedekind eta function \cite{stegun}). 
-This allows us to define a finite-size scaling procedure to extract $c$ from numerical calculations 
-of the GMI.
 
 
 
-We compute the GMI using Monte Carlo simulations and the transfer-matrix ratio trick
+
+We compute the RMI using Monte Carlo simulations and the transfer-matrix ratio trick
 for classical systems \cite{gelman1998,tommaso,graph-theory}, using the formula
 %%%%
 \begin{eqnarray}
@@ -201,8 +174,7 @@ denotes a series of $N$ blocks of increasing size, the consecutive blocks differ
 one-dimensional strip of spins running parallel to the boundary separating $A$ and $B$, with $ A_0 $ being the empty region and $A_N = A$.
 The algorithm is well documented in Ref.~\cite{stephan2014}.  In addition to the procedure presented there, we combine parallel tempering to ensure that the states used to estimate the ratios of the partition functions, $
 \Big \lbrace \frac{  Z [A_{ i+1 } ,2, T] }   {   Z [A_i ,2, T] }  \Big \rbrace $ , are efficiently sampled.
-This is important when trying to accurately locate the tricritical point in the Blume-Capel model where critical slowing down can bias results from Monte Carlo simulations.
-In addition, having results over a grid of model parameters allows us to examine the quality of the fit to the universal shape function to compare to previous estimates for the tricritical temperature $T_{tc}$ and the coupling constant $D_{ tc } $.
+
 
 
 For a square system at $T= 2 \, T_c $ and all other parameters corresponding to the critical point, $c$ can be readily extracted from the quantity
@@ -236,19 +208,8 @@ Fig.~\ref{i2} shows the RMI as a function of temperature,
 revealing a transition at $T_c$ and $2 \,T_c$ as crossings in $I_2(L/2, L)  /L$.
 The data used for this plot has been obtained by thermodynamic integration and imposing periodic boundary conditions on the lattice.
 
-Let us elaborate on how this finite-size analysis can be implemented.
-The function $ y(1/L) = m  /L \,  +  \, c_{ \text{extr} } $ is obtained for each $ \ell/L$, where $m$ is the slope
-and $ c_{ \text{extr}  }$ is the $y$-intercept for the data points corresponding to $ \Big ( x\equiv 1/L , \, y(x) \equiv  I_2 (\ell, L) - I_2 (L/2 , L) \Big  )$. 
-After collecting the $\lbrace c_{ \text{extr} } \rbrace $ for all ratios $\lbrace \ell/L \rbrace$, we fit
-these with the fitting function $\mathcal{J}(c )$, keeping $c$ as the free parameter.
-%%%%%%
-In other words, the set $\lbrace \ell/L, c_{ \text{extr} } \rbrace$ is fitted by numerically searching for the value of $c$ which makes $\mathcal{J}(c )$ fit the data best.
 
 
-
-
-
- 
 
 
 
@@ -262,9 +223,6 @@ In other words, the set $\lbrace \ell/L, c_{ \text{extr} } \rbrace$ is fitted by
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {\em Discussion --}
 In this paper, we have ......... on a square lattice by using classical Monte Carlo calculations of second R{\'e}nyi entropy.  
-First, by analyzing the Geometrical Mutual Information (GMI), 
-we have calculated the central charge of the low-energy conformal field theory (CFT) 
-description of the critical point.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
